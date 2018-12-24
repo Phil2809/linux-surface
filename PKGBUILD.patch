@@ -1,0 +1,76 @@
+--- a/PKGBUILD
++++ b/PKGBUILD
+@@ -1,10 +1,7 @@
+-# Maintainer: Jan Alexander Steffens (heftig) <jan.steffens@gmail.com>
+-# Maintainer: Tobias Powalowski <tpowa@archlinux.org>
+-# Maintainer: Thomas Baechler <thomas@archlinux.org>
+-
+-pkgbase=linux               # Build stock -ARCH kernel
+-#pkgbase=linux-custom       # Build kernel with a different name
+-_srcver=4.19.12-arch1
++#pkgbase=linux               # Build stock -ARCH kernel
++pkgbase=linux-surface       # Build kernel with a different name
++_srcver=4.18.16-arch1
++_patchver=4.18
+ pkgver=${_srcver//-/.}
+ pkgrel=1
+ arch=(x86_64)
+@@ -13,12 +10,15 @@ license=(GPL2)
+ makedepends=(xmlto kmod inetutils bc libelf git python-sphinx graphviz)
+ options=('!strip')
+ _srcname=archlinux-linux
++_patches=linux-surface
++_fetchDir=$_srcname/$_patches
+ source=(
+   "$_srcname::git+https://git.archlinux.org/linux.git?signed#tag=v$_srcver"
+-  config         # the main kernel config file
++  .config        # the main kernel config file
+   60-linux.hook  # pacman hook for depmod
+   90-linux.hook  # pacman hook for initramfs regeneration
+   linux.preset   # standard config files for mkinitcpio ramdisk
++  "$_fetchDir::git+https://github.com/qzed/linux-surface.git"
+ )
+ validpgpkeys=(
+   'ABAF11C65A2970B130ABE3C479BE3E4300411886'  # Linus Torvalds
+@@ -26,10 +26,11 @@ validpgpkeys=(
+   '8218F88849AAC522E94CF470A5E9288C4FA415FA'  # Jan Alexander Steffens (heftig)
+ )
+ sha256sums=('SKIP'
+-            '2aa5cde5c40ca06ea0a10b9a212bd9b96deb548d58c0a55386f0e8ae5fc0edf5'
++            '03d0b940b05ac974aa352f2738476275a61ac258f614ec1b21fd11424bc29a98'
+             'ae2e95db94ef7176207c690224169594d49445e04249d2499e9d2fbc117a0b21'
+             'c043f3033bb781e2688794a59f6d1f7ed49ef9b13eb77ff9a425df33a244a636'
+-            'ad6344badc91ad0630caacde83f7f9b97276f80d26a20619a87952be65492c65')
++            'ad6344badc91ad0630caacde83f7f9b97276f80d26a20619a87952be65492c65'
++            'SKIP')
+ 
+ _kernelname=${pkgbase#linux}
+ : ${_kernelname:=-ARCH}
+@@ -42,17 +43,13 @@ prepare() {
+   echo "-$pkgrel" > localversion.10-pkgrel
+   echo "$_kernelname" > localversion.20-pkgname
+ 
+-  local src
+-  for src in "${source[@]}"; do
+-    src="${src%%::*}"
+-    src="${src##*/}"
+-    [[ $src = *.patch ]] || continue
+-    msg2 "Applying patch $src..."
+-    patch -Np1 < "../$src"
++  for src in ../$_patches/patches/$_patchver/*.patch; do
++    	msg2 "Applying patch $src..."
++    	patch -Np1 < $src
+   done
+ 
+   msg2 "Setting config..."
+-  cp ../config .config
++  cp ../.config .config
+   make olddefconfig
+ 
+   make -s kernelrelease > ../version
+@@ -239,5 +236,3 @@ for _p in "${pkgname[@]}"; do
+     _package${_p#$pkgbase}
+   }"
+ done
+-
+-# vim:set ts=8 sts=2 sw=2 et:
