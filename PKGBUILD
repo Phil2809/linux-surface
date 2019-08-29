@@ -1,6 +1,6 @@
 pkgbase=linux-surface      # Build kernel with a different name
-_srcver=5.0.1-arch1
-_patchver=5.0
+_srcver=5.2.11-arch1
+_patchver=5.2
 pkgver=${_srcver//-/.}
 pkgrel=1
 arch=(x86_64)
@@ -16,7 +16,7 @@ source=(
   60-linux.hook  # pacman hook for depmod
   90-linux.hook  # pacman hook for initramfs regeneration
   linux.preset   # standard config files for mkinitcpio ramdisk
-  "$_patches::git+https://github.com/jakeday/linux-surface.git"
+  "$_patches::git+https://github.com/qzed/linux-surface.git"
 )
 validpgpkeys=(
   'ABAF11C65A2970B130ABE3C479BE3E4300411886'  # Linus Torvalds
