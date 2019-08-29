@@ -16,7 +16,7 @@ source=(
   60-linux.hook  # pacman hook for depmod
   90-linux.hook  # pacman hook for initramfs regeneration
   linux.preset   # standard config files for mkinitcpio ramdisk
-  "$_patches::git+https://github.com/qzed/linux-surface.git"
+  "$_patches::git+https://github.com/qzed/linux-surface.git#branch=v5.2"
 )
 validpgpkeys=(
   'ABAF11C65A2970B130ABE3C479BE3E4300411886'  # Linus Torvalds
