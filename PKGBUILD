@@ -1,6 +1,6 @@
 pkgbase=linux-surface      # Build kernel with a different name
-_srcver=5.2.11-arch1
-_patchver=5.2
+_srcver=5.3.7-arch1
+_patchver=5.3
 pkgver=${_srcver//-/.}
 pkgrel=1
 arch=(x86_64)
