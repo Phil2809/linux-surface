@@ -48,7 +48,7 @@ prepare() {
   done
 
   msg2 "Setting config..."
-  cp ../.config .config
+  cp ../config .config
   make olddefconfig
 
   make -s kernelrelease > ../version
