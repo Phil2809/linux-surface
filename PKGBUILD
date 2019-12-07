@@ -1,11 +1,11 @@
-pkgbase=linux-surface      # Build kernel with a different name
-_srcver=5.3.7-arch1
-_patchver=5.3
-pkgver=${_srcver//-/.}
-pkgdesc='Linux'
+pkgbase=linux-surface
+pkgver=5.4.2.arch1
 pkgrel=1
+pkgdesc='Linux'
+_srctag=v${pkgver%.*}-${pkgver##*.}
+_patchver=5.3
+url="https://git.archlinux.org/linux.git/log/?h=$_srctag"
 arch=(x86_64)
-url="https://git.archlinux.org/linux.git/log/?h=v$_srcver"
 license=(GPL2)
 makedepends=(
   bc kmod libelf
@@ -16,7 +16,7 @@ options=('!strip')
 _srcname=archlinux-linux
 _patches=surface-patches
 source=(
-  "$_srcname::git+https://git.archlinux.org/linux.git?signed#tag=v$_srcver"
+  "$_srcname::git+https://git.archlinux.org/linux.git?signed#tag=v$_srctag"
   config        # the main kernel config file
   "$_patches::git+https://github.com/qzed/linux-surface.git#branch=master"
 )
@@ -51,8 +51,8 @@ prepare() {
   cp ../config .config
   make olddefconfig
 
-  make -s kernelrelease > ../version
-  msg2 "Prepared %s version %s" "$pkgbase" "$(<../version)"
+  make -s kernelrelease > version
+  msg2 "Prepared %s version %s" "$pkgbase" "$(<version)"
 }
 
 build() {
