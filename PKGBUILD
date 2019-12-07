@@ -16,7 +16,7 @@ options=('!strip')
 _srcname=archlinux-linux
 _patches=surface-patches
 source=(
-  "$_srcname::git+https://git.archlinux.org/linux.git?signed#tag=v$_srctag"
+  "$_srcname::git+https://git.archlinux.org/linux.git?signed#tag=$_srctag"
   config        # the main kernel config file
   "$_patches::git+https://github.com/qzed/linux-surface.git#branch=master"
 )
