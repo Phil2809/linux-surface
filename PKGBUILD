@@ -17,7 +17,7 @@ _srcname=archlinux-linux
 _patches=surface-patches
 source=(
   "$_srcname::git+https://git.archlinux.org/linux.git?signed#tag=v$_srcver"
-  .config        # the main kernel config file
+  config        # the main kernel config file
   "$_patches::git+https://github.com/qzed/linux-surface.git#branch=master"
 )
 validpgpkeys=(
@@ -26,7 +26,7 @@ validpgpkeys=(
   '8218F88849AAC522E94CF470A5E9288C4FA415FA'  # Jan Alexander Steffens (heftig)
 )
 sha256sums=('SKIP'
-            'b58c661288c69276e9c8b5bdbd4e71071bbeaa220b0071bc85f1581007eaaa63'
+            '206a97070f5a69fe17eb6b786027c55fbace03d8f4d089185c3a7bc4fbdebc17'
             'SKIP')
 
 export KBUILD_BUILD_HOST=archlinux
@@ -41,6 +41,7 @@ prepare() {
   echo "-$pkgrel" > localversion.10-pkgrel
   echo "${pkgbase#linux}" > localversion.20-pkgname
 
+  echo "Applying Surface device patches ..."
   for src in ../$_patches/patches/$_patchver/*.patch; do
     msg2 "Applying patch $src..."
     patch -Np1 < $src
