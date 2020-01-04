@@ -18,7 +18,7 @@ _patches=surface-patches
 source=(
   "$_srcname::git+https://git.archlinux.org/linux.git?signed#tag=$_srctag"
   config        # the main kernel config file
-  "$_patches::git+https://github.com/qzed/linux-surface.git#branch=master"
+  "$_patches::git+https://github.com/linux-surface/linux-surface.git#branch=master"
 )
 validpgpkeys=(
   'ABAF11C65A2970B130ABE3C479BE3E4300411886'  # Linus Torvalds
